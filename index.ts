@@ -1,16 +1,15 @@
-const horas = require('./utils/index')
-const express = require('express');
+import express from 'express';
+import authRouter from './src/routers/auth/auth_router';
 const app = express();
-const dotenv = require('dotenv')
-dotenv.config();
 const port = process.env.PORT;
-const authRouters = require('./routers/auth/auth_router');
-console.log(horas())
-//USE ROUTERS
-app.use('/auth', authRouters);
+
+//Config middlewares
+app.use(express.json())//for parsing application/json
+app.use(express.urlencoded({extended:true})) // for parsing application/x-www-form-urlencoded
+// //USE ROUTERS
+app.use('/auth', authRouter);
 
 app.listen(port, () => {
-    console.log('empezando ')
     console.log('Listening on port', port)
 }).on("error", (error) => {
     // gracefully handle error
