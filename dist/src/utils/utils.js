@@ -25,21 +25,6 @@ const getUser = (data) => {
 };
 exports.getUser = getUser;
 const getHashedPassword = (value) => {
-    // return new Promise((resolve, reject) => {
-    //     genSalt(Number(process.env.SALTROUND) || 10)
-    //         .then((salt) => {
-    //             hash(value, salt)
-    //                 .then((hashedPassword) => {
-    //                     resolve(hashedPassword);
-    //                 })
-    //                 .catch(err => reject(err))
-    //         })
-    //         .catch(err=>reject(err));
-    // });
-    // const salt = genSaltSync(Number(process.env.SALTROUNDS) || 10)
-    // const hashedPassword = hashSync(value, salt);
-    // return hashedPassword;
-    // const salt = crypto.randomBytes(32).toString('hex');
     const salt = process.env.SALT;
     const genHash = crypto_1.default.pbkdf2Sync(value, salt, 10000, 64, 'sha512').toString('hex');
     return genHash;

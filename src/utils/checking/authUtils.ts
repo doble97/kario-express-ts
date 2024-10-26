@@ -2,6 +2,12 @@ import { NextFunction, Request, Response } from "express"
 import { ApiResponse } from "@/domain/apiResponse";
 import { User } from "@/domain/user";
 import { getUser } from "../utils";
+import {createSecretKey} from 'crypto';
+import { SignJWT } from "jose";
+// const secretKey = createSecretKey(process.env.JWT_SECRET || 'fsd2398fasñ','utf-8' )
+const secretKey = Buffer.from(process.env.JWT_SECRET || 'fsd2398fasñ')
+
+
 
 export const authUtils =  {
     checkEmailAndPassword: (body:any):boolean=> {
@@ -22,7 +28,22 @@ export const authUtils =  {
     checkTokenIsValid:(token:string):boolean=>{
         return true;
     },
-    createToken:(user:User)=>{
-        
+    createToken:(user:User):Promise<string>=>{
+        return new Promise((resolve, reject)=>{
+            new SignJWT({
+                id:user.id,
+                email:user.email
+            })
+            .setProtectedHeader({
+                alg: 'HS256'
+               })
+            .setIssuedAt()
+            .setIssuer(process.env.JWT_ISSUER!)
+            .setAudience(process.env.JWT_AUDIENCE!)
+            .setExpirationTime(process.env.JWT_EXPIRATION_TIME!)
+            .sign(secretKey)
+            .then(resp=>resolve(resp))
+            .catch(err=>reject(err));
+        });
     }
 }
