@@ -1,4 +1,3 @@
--- Active: 1727487294805@@127.0.0.1@3306
 drop DATABASE kario_db;
 create database kario_db;
 use kario_db;

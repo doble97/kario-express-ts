@@ -1,4 +1,4 @@
-import { userData } from "@/data/user";
+import { userData } from "@/data/datasources";
 import { ApiResponse } from "@/domain/apiResponse";
 import { authUtils } from "@/utils/checking/authUtils";
 import { Request, Response } from "express";
